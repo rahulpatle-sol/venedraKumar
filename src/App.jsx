@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from 'react';
+import { Routes,Route } from 'react-router-dom';
+import Lenis from 'lenis';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Blogs from './pages/Blogs';
+import Jobs from './pages/Jobs';
+import 'lenis/dist/lenis.css';
+import Experience from './components/Experience';
+import Contact from './components/Contact';
+import Projects from './components/Projects';
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    const lenis = new Lenis({ 
+      duration: 1.2, 
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) 
+    });
+    function raf(time) { 
+      lenis.raf(time); 
+      requestAnimationFrame(raf); 
+    }
+    requestAnimationFrame(raf);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="bg-[#f8f9fa] text-black">
+ 
+ 
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/contact" element={<Contact/>} />
+        <Route path="/experience" element={<Experience/>} />
+       <Route path='/projects'  element={<Projects/>} />
+         </Routes>
+   
+    </div>
+  );
 }
 
-export default App
+export default App;
