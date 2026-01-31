@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-
+import Footer from '../components/Footer';
 import gsap from 'gsap';
 import { motion } from 'framer-motion';
 
@@ -105,7 +105,6 @@ const Blogs = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

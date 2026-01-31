@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
       {/* --- MAIN NAV BAR --- */}
-      <nav className={`fixed top-0 w-full z-[150] flex justify-between items-center px-6 md:px-12 transition-all duration-500 ${scrolled ? 'py-4 backdrop-blur-md bg-black/10' : 'py-10'} mix-blend-difference text-white`}>
+      <nav className={`fixed top-0 w-full z-[150] flex justify-between items-center px-6 md:px-12 transition-all duration-500 ${scrolled ? 'py-6 backdrop-blur-md bg-black/10' : 'py-10'} mix-blend-difference text-white`}>
         
         <Link to="/" className="text-xl md:text-2xl font-['Playfair_Display'] italic font-bold tracking-tighter group overflow-hidden">
           <motion.span 

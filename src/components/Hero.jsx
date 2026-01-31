@@ -51,10 +51,7 @@ const GlobalExecutiveHero = () => {
               <p className="text-xs font-bold tracking-widest text-green-500">OPERATIONAL // 2026</p>
             </div>
           </div>
-          
-          <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500">
-            Book Consultation
-          </button>
+  
         </div>
 
         {/* --- MAIN BODY: THE FOUNDER GRID --- */}
@@ -93,13 +90,11 @@ const GlobalExecutiveHero = () => {
             </motion.p>
 
             <div className="flex flex-wrap gap-6 pt-6">
-              <button className="group flex items-center gap-4 px-10 py-5 bg-white text-black rounded-full font-black text-[11px] uppercase tracking-[0.4em] hover:scale-105 transition-transform">
+              <a  href="/portfolio" className="group flex items-center gap-4 px-10 py-5 bg-white text-black rounded-full font-black text-[11px] uppercase tracking-[0.4em] hover:scale-105 transition-transform">
                 View Portfolio
                 <ArrowUpRight size={18} className="group-hover:rotate-45 transition-transform" />
-              </button>
-              <button className="flex items-center gap-4 px-10 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full font-black text-[11px] uppercase tracking-[0.4em] hover:bg-white/10 transition-all">
-                The Dossier
-              </button>
+              </a>
+             
             </div>
           </div>
 
@@ -115,7 +110,7 @@ const GlobalExecutiveHero = () => {
             >
               <img 
                 ref={imageRef}
-                src="https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Your Photo
+                src="/main.png" // Your Photo
                 className="w-full h-full object-cover grayscale brightness-110 contrast-125 group-hover:grayscale-0 transition-all duration-1000"
                 alt="Venendra Kumar"
               />
@@ -134,7 +129,7 @@ const GlobalExecutiveHero = () => {
             {/* FLOATING GLASS CARD 1: VIDEO PREVIEW */}
             <div className="glass-card absolute -top-10 -right-10 w-48 bg-white/10 backdrop-blur-2xl border border-white/20 p-4 rounded-3xl hidden xl:block z-30 shadow-2xl">
               <div className="relative rounded-2xl overflow-hidden mb-3">
-                 <img src="https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="w-full h-24 object-cover opacity-60" />
+                 <img src="/main.png" className="w-full h-24 object-cover opacity-60" />
                  <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center"><Play size={12} className="text-black fill-current ml-0.5" /></div>
                  </div>
@@ -144,21 +139,7 @@ const GlobalExecutiveHero = () => {
             </div>
 
             {/* FLOATING GLASS CARD 2: SOCIAL PROOF */}
-            <div className="glass-card absolute -bottom-10 -left-12 bg-black/40 backdrop-blur-2xl border border-white/20 p-6 rounded-[2rem] z-30 shadow-2xl hidden xl:block">
-              <div className="flex items-center gap-4 mb-3">
-                <h4 className="text-4xl font-black tracking-tighter">10+</h4>
-                <div className="flex -space-x-3">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-[#030303] bg-gray-500 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?u=${i}`} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <p className="text-[9px] uppercase tracking-[0.3em] font-bold text-white/40 leading-relaxed">
-                Trusted by high-net-worth <br /> global partners.
-              </p>
-            </div>
+        
 
           </div>
         </div>
