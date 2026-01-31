@@ -1,115 +1,180 @@
 import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { Menu, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Shield, Globe, Play, User } from 'lucide-react';
 
-const Hero = () => {
+const GlobalExecutiveHero = () => {
   const containerRef = useRef(null);
   const imageRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 1.5 } });
-
-      // 1. Initial State
-      gsap.set(".reveal-text", { y: "110%" });
-      gsap.set(".line-grow", { scaleX: 0 });
-      gsap.set(imageRef.current, { scale: 1.3, filter: "blur(10px)", opacity: 0 });
-
-      // 2. Animation Sequence
-      tl.to(imageRef.current, { scale: 1, filter: "blur(0px)", opacity: 1, duration: 2.5 })
-        .to(".reveal-text", { y: "0%", stagger: 0.1 }, "-=2")
-        .to(".line-grow", { scaleX: 1, stagger: 0.2, transformOrigin: "left" }, "-=1.5")
-        .from(".fade-in", { opacity: 0, y: 20, stagger: 0.1 }, "-=1");
-
+      // Background slow-zoom for cinematic depth
+      gsap.fromTo(".hero-bg", 
+        { scale: 1.1, filter: "brightness(0.3)" },
+        { scale: 1, filter: "brightness(0.5)", duration: 4, ease: "power2.out" }
+      );
+      
+      // Floating animation for the glass cards
+      gsap.to(".glass-card", {
+        y: -20,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        stagger: 0.5
+      });
     }, containerRef);
-    
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen w-full bg-[#0f0f0f] text-[#e5e5e5] font-['Inter'] overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen w-full bg-[#030303] text-white overflow-hidden font-sans">
       
-      {/* --- GRID LINES (3000cr Vibe) --- */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="line-grow absolute top-[15%] left-0 w-full h-[1px] bg-white/10"></div>
-        <div className="line-grow absolute bottom-[25%] left-0 w-full h-[1px] bg-white/10"></div>
-        <div className="line-grow absolute left-[25%] top-0 h-full w-[1px] bg-white/10 hidden md:block"></div>
-      </div>
+      {/* --- CINEMATIC BACKGROUND --- */}
+      <div 
+        className="hero-bg absolute inset-0 z-0 bg-contain bg-center bg-no-repeat will-change-transform"
+        style={{ backgroundImage: `url('/main.png')` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-transparent to-transparent z-10 opacity-90" />
 
-      {/* --- TOP NAVIGATION --- */}
-   
-
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 min-h-[80vh]">
+      <div className="relative z-20 container mx-auto px-6 md:px-16 min-h-screen flex flex-col justify-between py-12">
         
-        {/* --- LEFT SECTION: ROLE --- */}
-        <div className="md:col-span-1 flex flex-col justify-end p-10 border-r border-white/10">
-          <div className="fade-in">
-            <h2 className="text-3xl font-bold leading-tight uppercase mb-4 tracking-tighter">
-              Digital <br /> Product <br /> Designer
-            </h2>
-          </div>
-        </div>
-
-        {/* --- CENTER SECTION: NAME & MAIN IMAGE --- */}
-        <div className="md:col-span-2 relative flex flex-col items-center justify-center pt-20">
-          
-          {/* THE BIG NAME (Luxury Typography) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full text-center pointer-events-none">
-            <h1 className="text-[14vw] md:text-[10vw] font-['Playfair_Display'] leading-none italic">
-              <div className="overflow-hidden">
-                <span className="reveal-text inline-block">Hi, I am</span>
-              </div>
-              <div className="overflow-hidden -mt-4 md:-mt-8">
-                <span className="reveal-text inline-block font-bold not-italic">Venendra</span>
-              </div>
-            </h1>
-          </div>
-
-          {/* MAIN IMAGE (The Mask Effect) */}
-          <div className="relative w-[70%] md:w-[50%] aspect-[4/5] overflow-hidden rounded-full shadow-[0_0_100px_rgba(255,255,255,0.05)]">
-            <img 
-              ref={imageRef}
-              src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1887&auto=format&fit=crop" 
-              className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-1000"
-              alt="Profile" 
-            />
-            {/* Soft Glow Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-          </div>
-        </div>
-
-        {/* --- RIGHT SECTION: BIO & CTA --- */}
-        <div className="md:col-span-1 flex flex-col justify-between p-10">
-          <div className="fade-in space-y-6">
-            <div className="flex justify-end">
-              <ArrowUpRight className="w-12 h-12 text-white/20" />
+        {/* --- TOP: NAVIGATION & STATUS --- */}
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+              <Globe size={16} className="text-blue-400" />
             </div>
-            <p className="text-sm leading-relaxed text-gray-400 max-w-[200px] ml-auto text-right">
-              Passionate UI/UX Designer crafting engaging, user-centered websites, apps, and branding.
-            </p>
+            <div>
+              <p className="text-[10px] tracking-[0.4em] uppercase font-black text-white/40">Global Status</p>
+              <p className="text-xs font-bold tracking-widest text-green-500">OPERATIONAL // 2026</p>
+            </div>
+          </div>
+          
+          <button className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500">
+            Book Consultation
+          </button>
+        </div>
+
+        {/* --- MAIN BODY: THE FOUNDER GRID --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-20">
+          
+          {/* LEFT: POWER TYPOGRAPHY */}
+          <div className="lg:col-span-7 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10"
+            >
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+              <span className="text-[9px] uppercase tracking-[0.4em] font-bold">Strategic Architect</span>
+            </motion.div>
+
+            <motion.h1 
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-7xl md:text-[10rem] font-bold leading-[0.8] tracking-tighter uppercase"
+            >
+              VENENDRA <br /> 
+              <span className="text-transparent font-light italic" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.4)' }}>
+                KUMAR
+              </span>
+            </motion.h1>
+
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-xl md:text-2xl text-white/60 font-light max-w-xl leading-relaxed"
+            >
+              Transforming complex high-stakes capital into <span className="text-white border-b border-white/20 italic">seamless digital legacies</span>. 
+            </motion.p>
+
+            <div className="flex flex-wrap gap-6 pt-6">
+              <button className="group flex items-center gap-4 px-10 py-5 bg-white text-black rounded-full font-black text-[11px] uppercase tracking-[0.4em] hover:scale-105 transition-transform">
+                View Portfolio
+                <ArrowUpRight size={18} className="group-hover:rotate-45 transition-transform" />
+              </button>
+              <button className="flex items-center gap-4 px-10 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full font-black text-[11px] uppercase tracking-[0.4em] hover:bg-white/10 transition-all">
+                The Dossier
+              </button>
+            </div>
           </div>
 
-          {/* MINI PREVIEW BOX (Like the reference) */}
-          <div className="fade-in mt-auto bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-md">
-             <div className="w-full h-32 bg-gray-800 rounded-lg overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000" className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[10px] tracking-[0.2em] uppercase">View Projects</span>
+          {/* RIGHT: THE LUXURY FOUNDER CARD */}
+          <div className="lg:col-span-5 relative flex justify-center">
+            
+            {/* Main Portrait Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1.2 }}
+              className="relative w-full max-w-md aspect-[4/5] rounded-[3rem] overflow-hidden border border-white/20 shadow-2xl z-20 group"
+            >
+              <img 
+                ref={imageRef}
+                src="https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Your Photo
+                className="w-full h-full object-cover grayscale brightness-110 contrast-125 group-hover:grayscale-0 transition-all duration-1000"
+                alt="Venendra Kumar"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              
+              {/* Floating Content on Photo */}
+              <div className="absolute bottom-8 left-8 right-8">
+                <div className="flex gap-2 mb-4">
+                  <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold">Strategy</span>
+                  <span className="px-3 py-1 bg-blue-500/40 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold">Technology</span>
                 </div>
-             </div>
+                <h3 className="text-3xl font-bold tracking-tight">Executive Lead</h3>
+              </div>
+            </motion.div>
+
+            {/* FLOATING GLASS CARD 1: VIDEO PREVIEW */}
+            <div className="glass-card absolute -top-10 -right-10 w-48 bg-white/10 backdrop-blur-2xl border border-white/20 p-4 rounded-3xl hidden xl:block z-30 shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden mb-3">
+                 <img src="https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="w-full h-24 object-cover opacity-60" />
+                 <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center"><Play size={12} className="text-black fill-current ml-0.5" /></div>
+                 </div>
+              </div>
+              <p className="text-[9px] uppercase tracking-widest text-white/50 mb-1">Architecture</p>
+              <p className="text-[10px] font-bold leading-tight">V-Studio Interior Preview</p>
+            </div>
+
+            {/* FLOATING GLASS CARD 2: SOCIAL PROOF */}
+            <div className="glass-card absolute -bottom-10 -left-12 bg-black/40 backdrop-blur-2xl border border-white/20 p-6 rounded-[2rem] z-30 shadow-2xl hidden xl:block">
+              <div className="flex items-center gap-4 mb-3">
+                <h4 className="text-4xl font-black tracking-tighter">10+</h4>
+                <div className="flex -space-x-3">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-[#030303] bg-gray-500 overflow-hidden">
+                      <img src={`https://i.pravatar.cc/100?u=${i}`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[9px] uppercase tracking-[0.3em] font-bold text-white/40 leading-relaxed">
+                Trusted by high-net-worth <br /> global partners.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* --- FOOTER: PROTOCOL --- */}
+        <div className="flex flex-col md:flex-row justify-between items-end border-t border-white/10 pt-12 text-white/20 uppercase tracking-[0.5em] font-bold text-[9px]">
+          <p>© 2026 VK ARCHITECTS. ALL RIGHTS RESERVED.</p>
+          <div className="flex gap-12 mt-4 md:mt-0">
+            <span className="hover:text-white cursor-pointer transition-colors">Privacy Protocol</span>
+            <span className="hover:text-white cursor-pointer transition-colors">Terms of Engagement</span>
           </div>
         </div>
 
       </div>
-
-      {/* --- BOTTOM BAR --- */}
-      <div className="absolute bottom-0 left-0 w-full p-8 flex justify-between items-center text-[10px] tracking-[0.3em] uppercase opacity-40">
-        <p>© 2026 Portfolio Edition</p>
-        <p>Available for Freelance</p>
-      </div>
-
     </section>
   );
 };
 
-export default Hero;
+export default GlobalExecutiveHero;

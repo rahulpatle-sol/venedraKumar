@@ -1,112 +1,148 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { ArrowUpRight, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Github, Twitter, Linkedin, Mail, Shield, ArrowUpRight } from 'lucide-react';
 
-const Footer = () => {
+gsap.registerPlugin(ScrollTrigger);
+
+const ExecutiveFooter = () => {
   const bigTextRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    // Large Background Text Reveal
-    gsap.fromTo(bigTextRef.current, 
-      { y: 200, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 0.05, 
-        duration: 2, 
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: bigTextRef.current,
-          start: "top 95%",
+    const ctx = gsap.context(() => {
+      // Kinetic Text Parallax - Slow, heavy movement for premium feel
+      gsap.fromTo(bigTextRef.current, 
+        { x: "-5%", opacity: 0 },
+        { 
+          x: "2%", 
+          opacity: 0.04, 
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5,
+          }
         }
-      }
-    );
+      );
+    }, containerRef);
+    return () => ctx.revert();
   }, []);
 
-  const socialLinks = [
-    { name: "LinkedIn", icon: <Linkedin size={18} />, url: "#" },
-    { name: "Twitter", icon: <Twitter size={18} />, url: "#" },
-    { name: "Github", icon: <Github size={18} />, url: "#" },
-  ];
+  const links = {
+    expertise: ["Product Strategy", "System Architecture", "AI Optimization", "Growth Analysis"],
+    ventures: ["Vbizgro", "Skill2Hire", "VDOAds", "Ecoavenstra"]
+  };
 
   return (
-    <footer className="relative bg-[#0a0a0a] text-white pt-40 pb-10 px-6 md:px-20 overflow-hidden">
+    <footer 
+      ref={containerRef} 
+      className="relative bg-[#050505] text-white pt-48 pb-12 px-6 md:px-24 overflow-hidden border-t border-white/5 font-sans"
+    >
       
-      {/* --- BIG CALL TO ACTION --- */}
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center mb-40 gap-10">
-        <div className="max-w-2xl">
-          <motion.p 
+      {/* --- MAIN CALL TO ACTION --- */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 mb-32">
+        <div>
+          <motion.div 
             initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 0.5, x: 0 }}
-            className="text-[10px] uppercase tracking-[0.6em] mb-6 font-bold"
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex items-center gap-4 mb-10"
           >
-            Project in mind?
-          </motion.p>
-          <h2 className="text-6xl md:text-8xl font-['Playfair_Display'] italic leading-tight">
-            Let’s create something <span className="not-italic font-bold underline decoration-1 underline-offset-8">legendary.</span>
+            <div className="w-12 h-[1px] bg-blue-500/50"></div>
+            <span className="text-[10px] uppercase tracking-[0.8em] text-white/40 font-bold">The Final Chapter</span>
+          </motion.div>
+          
+          <h2 className="text-[10vw] md:text-[7vw] font-serif leading-[0.85] mb-12 tracking-tight">
+            Ready to <br /> 
+            <span className="italic font-light text-white/80">Scale</span> your <br /> 
+            <span className="font-bold underline decoration-[1px] underline-offset-[12px] decoration-white/20">Legacy?</span>
           </h2>
-        </div>
 
-        {/* MAGNETIC BUTTON VIBE */}
-        <motion.a 
-          href="mailto:hello@venendra.com"
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-40 h-40 md:w-56 md:h-56 bg-white text-black rounded-full flex flex-col items-center justify-center group transition-colors duration-500 hover:bg-blue-500 hover:text-white"
-        >
-          <Mail className="mb-2 group-hover:animate-bounce" />
-          <span className="text-xs uppercase font-black tracking-widest">Get in touch</span>
-          <ArrowUpRight className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity" size={20} />
-        </motion.a>
-      </div>
-
-      {/* --- SOCIALS & INFO GRID --- */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 border-t border-white/10 pt-20 mb-20 relative z-10">
-        
-        <div className="md:col-span-2 space-y-6">
-          <p className="text-white/40 text-sm max-w-xs leading-relaxed">
-            Specializing in high-performance blockchain architecture and seamless digital experiences. Based in India, working worldwide.
-          </p>
-          <div className="flex gap-6">
-            {socialLinks.map((link, i) => (
-              <motion.a 
-                key={i}
-                href={link.url}
-                whileHover={{ y: -5, opacity: 1 }}
-                className="opacity-50 transition-all flex items-center gap-2 text-xs uppercase tracking-widest font-bold"
-              >
-                {link.icon} {link.name}
-              </motion.a>
-            ))}
+          <div className="flex flex-wrap gap-6 mt-16">
+            <button className="group flex items-center gap-3 px-10 py-5 bg-white text-black text-[10px] uppercase font-black tracking-[0.4em] rounded-full hover:bg-transparent hover:text-white border border-white transition-all duration-500">
+              Initiate Project
+              <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"/>
+            </button>
+            <button className="px-10 py-5 bg-transparent text-white text-[10px] uppercase font-black tracking-[0.4em] rounded-full border border-white/10 hover:border-white transition-all duration-500">
+              Download Dossier
+            </button>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Contact Details</p>
-          <p className="text-lg font-light">hello@venendra.com</p>
-          <p className="text-lg font-light">+91 98765 43210</p>
-        </div>
-
-        <div className="space-y-4">
-          <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Current Status</p>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <p className="text-lg font-light">Available for new projects</p>
+        {/* --- NAVIGATION GRID --- */}
+        <div className="grid grid-cols-2 gap-12 border-l border-white/5 pl-0 lg:pl-20">
+          <div className="space-y-10">
+            <h4 className="text-[10px] uppercase tracking-[0.4em] font-black text-white/20">Core Pillars</h4>
+            <ul className="space-y-5">
+              {links.expertise.map((item) => (
+                <li key={item} className="group flex items-center text-lg font-serif italic text-white/60 hover:text-white transition-all cursor-pointer">
+                  <span className="w-0 group-hover:w-4 h-[1px] bg-blue-500 mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="space-y-10">
+            <h4 className="text-[10px] uppercase tracking-[0.4em] font-black text-white/20">Active Ventures</h4>
+            <ul className="space-y-5">
+              {links.ventures.map((item) => (
+                <li key={item} className="group flex items-center text-lg font-serif italic text-white/60 hover:text-white transition-all cursor-pointer">
+                  <span className="w-0 group-hover:w-4 h-[1px] bg-blue-500 mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* --- BOTTOM STRIP --- */}
-      <div className="flex flex-col md:flex-row justify-between items-center opacity-20 text-[10px] uppercase font-bold tracking-[0.4em] pt-10 border-t border-white/5">
-        <p>© 2026 Venendra Kumar — All Rights Reserved</p>
-        <p className="mt-4 md:mt-0">Built with React 19 & GSAP</p>
+      {/* --- DATA STRIP --- */}
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 py-16 border-y border-white/5 gap-10">
+        <div className="flex items-center gap-4">
+            <div className="p-4 bg-white/5 rounded-full border border-white/5 group hover:border-white/20 transition-colors">
+                <Mail size={18} className="text-white/60"/>
+            </div>
+            <div>
+                <p className="text-[8px] uppercase tracking-widest text-white/30 mb-1">Primary Liaison</p>
+                <p className="text-sm font-light tracking-wide hover:text-blue-400 cursor-pointer transition-colors">partnerships@venendra.com</p>
+            </div>
+        </div>
+        <div className="flex items-center gap-4">
+            <div className="p-4 bg-white/5 rounded-full border border-white/5">
+                <Shield size={18} className="text-white/60"/>
+            </div>
+            <div>
+                <p className="text-[8px] uppercase tracking-widest text-white/30 mb-1">Protocol Status</p>
+                <p className="text-sm font-light flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> 
+                    Active & Available
+                </p>
+            </div>
+        </div>
+        <div className="flex justify-start md:justify-end items-center gap-10">
+            <Linkedin className="text-white/20 hover:text-white transition-all cursor-pointer hover:-translate-y-1" size={22}/>
+            <Twitter className="text-white/20 hover:text-white transition-all cursor-pointer hover:-translate-y-1" size={22}/>
+            <Github className="text-white/20 hover:text-white transition-all cursor-pointer hover:-translate-y-1" size={22}/>
+        </div>
       </div>
 
-      {/* --- LARGE KINETIC BACKGROUND TEXT --- */}
+      {/* --- LEGAL STRIP --- */}
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-center pt-12 text-[9px] uppercase tracking-[0.6em] font-bold text-white/20">
+        <p>© 2026 VENENDRA KUMAR. ARCHITECTING DIGITAL DOMINANCE.</p>
+        <div className="flex gap-10 mt-6 md:mt-0">
+            <span className="hover:text-white transition-colors cursor-pointer border-b border-transparent hover:border-white/20 pb-1">Privacy Protocol</span>
+            <span className="hover:text-white transition-colors cursor-pointer border-b border-transparent hover:border-white/20 pb-1">Terms of Engagement</span>
+        </div>
+      </div>
+
+      {/* --- KINETIC BACKGROUND TEXT --- */}
       <h2 
         ref={bigTextRef}
-        className="absolute -bottom-10 left-0 text-[30vw] leading-none font-black tracking-tighter pointer-events-none select-none"
-        style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)', color: 'transparent' }}
+        className="absolute -bottom-16 left-0 text-[28vw] leading-none font-black tracking-tighter pointer-events-none select-none italic transition-all duration-700"
+        style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)', color: 'transparent' }}
       >
         VENENDRA
       </h2>
@@ -114,4 +150,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default ExecutiveFooter;
